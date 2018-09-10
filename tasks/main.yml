@@ -1,0 +1,49 @@
+---
+
+- name: remove modules from /etc/modules-load.d directory
+  file:
+    path: "/etc/modules-load.d/{{ item.name }}.conf"
+    state: absent
+  when: >
+    item.state != 'present'
+  with_items: "{{ debianl_kernel_module_list }}"
+
+- name: add modules to /etc/modules-load.d directory
+  copy:
+    content: |
+      {{ item.name }}
+    dest: "/etc/modules-load.d/{{ item.name }}.conf"
+    owner: root
+    group: root
+    mode: "0644"
+  when: >
+    item.state == 'present'
+  with_items: "{{ debianl_kernel_module_list }}"
+
+- name: add modules to /etc/modules
+  lineinfile:
+    dest: /etc/modules
+    regexp: '^{{ item.name }}[^\w]'
+    line: "{{ item.name }} {% for (key, value) in item.params.options | default({}) %}{{ key }}={{ value }} {% endfor %}"
+  when: >
+    item.state == 'present'
+    and ansible_service_mgr != 'systemd'
+  with_items: "{{ debianl_kernel_module_list }}"
+
+- name: add modules params to /etc/modprobe.d
+  template:
+    src: etc/modprobe.d/module.conf.j2
+    dest: "/etc/modprobe.d/{{ item.name }}.conf"
+    owner: root
+    group: root
+    mode: "0644"
+  when: kernel_module_params is defined
+  with_items: "{{ debianl_kernel_module_list }}"
+
+- name: load modules
+  modprobe:
+    name: "{{ item.name }}"
+    params: "{% for (key, value) in item.params.options | default({}) %}{{ key }}={{ value }} {% endfor %}"
+    state: "{% if item.state == 'present' %}present{% else %}absent{% endif %}"
+  changed_when: False
+  with_items: "{{ debianl_kernel_module_list }}"

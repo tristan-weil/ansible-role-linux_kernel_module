@@ -1,0 +1,9 @@
+{% for (key, value) in item.params -%}
+{%      if value is string %}
+{{ key }} {{ item.name }} {{ value }}
+{%      elif value is mapping %}
+{%          for (subkey, subvalue) in value -%}
+{{ key }} {{ item.name }} {{ subkey }}={{ subvalue }}
+{%-         endfor %}
+{%      endif %}
+{%- endfor %}
