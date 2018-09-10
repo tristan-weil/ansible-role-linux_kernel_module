@@ -9,8 +9,8 @@ Each module is loaded from a file created `/etc/modprobe.d/`.
 Available variables are listed below, along with default values (see `defaults/main.yml`):
 
     debianl_kernel_module_list: []              # a liste of kernel modules
-      - name:                                   # the name of a module
-        state: present
+      - name: [mandatory]                       # the name of a module
+        state: present                          # present|absent
         params: {}                              # optional parameters to load
     
 The list of kernel modules to load.
