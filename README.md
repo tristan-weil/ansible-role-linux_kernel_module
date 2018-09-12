@@ -1,6 +1,6 @@
-# Ansible Role: Debian_kernel_module
+# Ansible Role: Linux_kernel_module
 
-An Ansible Role that allows to load kernel mondules for Debian.
+An Ansible Role that allows to load kernel modules for Linux.
 
 Each module is loaded from a file created `/etc/modprobe.d/`.
 
