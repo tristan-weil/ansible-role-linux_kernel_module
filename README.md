@@ -8,7 +8,7 @@ Each module is loaded from a file created `/etc/modprobe.d/`.
 
 Available variables are listed below, along with default values (see `defaults/main.yml`):
 
-    debianl_kernel_module_list: []              # a liste of kernel modules
+    kernel_modules: []                          # a liste of kernel modules
       - name: [mandatory]                       # the name of a module
         state: present                          # present|absent
         params: {}                              # optional parameters to load
@@ -24,7 +24,7 @@ None.
 
     - hosts: webservers
       roles:
-        - role: t18s.fr_debianl_kernel_module_list:
+        - role: t18s.fr_kernel_modules:
           - name: ip_tables
             state: present
             params: {}

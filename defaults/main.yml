@@ -1,6 +1,6 @@
 ---
 
-debianl_kernel_module_list: []
+kernel_modules: []
 #  - name:
 #    state: present
 #    params: {}
