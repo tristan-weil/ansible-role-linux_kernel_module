@@ -27,7 +27,7 @@
     line: "{{ item.name }} {% for (key, value) in item.params.options | default({}) %}{{ key }}={{ value }} {% endfor %}"
   when: >
     item.state == 'present'
-    and ansible_service_mgr != 'systemd'
+    and ansible_facts['service_mgr'] != 'systemd'
   with_items: "{{ kernel_modules }}"
 
 - name: add modules params to /etc/modprobe.d
