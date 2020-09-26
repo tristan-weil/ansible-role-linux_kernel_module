@@ -1,0 +1,14 @@
+---
+
+- hosts: all
+  name: 'Verify'
+  become: True
+  gather_facts: True
+
+  tasks:
+    - name: 'check module'
+      modprobe:
+        name: 'ip6_tables'
+        state: 'present'
+      register: __verify
+      failed_when: __verify.changed

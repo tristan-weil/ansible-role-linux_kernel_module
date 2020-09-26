@@ -1,56 +1,69 @@
-# Ansible Role: Linux_kernel_module
+# Ansible Role: linux_kernel_module
 
 An Ansible Role that allows to load kernel modules for Linux.
 
 Each module is loaded from a file created `/etc/modprobe.d/`.
 
+[![Actions Status](https://github.com/tristan-weil/ansible-role-linux_kernel_module/workflows/molecule/badge.svg?branch=master)](https://github.com/tristan-weil/ansible-role-linux_kernel_module/actions)
+
 ## Role Variables
 
 Available variables are listed below, along with default values (see `defaults/main.yml`):
 
-    kernel_modules: []                          # a liste of kernel modules
-      - name: [mandatory]                       # the name of a module
-        state: present                          # present|absent
-        params: {}                              # optional parameters to load
-    
-The list of kernel modules to load.
-Each item must include the `name` of the module and its optional `parameters`.
+Mandatory variables:
 
-## Dependencies
+| Variable      | Description |
+| :------------ | :---------- |
 
-None.
+Optional variables:
+
+| Variable      | Default | Description |
+| :------------ | :------ | :---------- |
+| linux_kernel_modules | []      | a list of <*kernel module*> |
+
+### <*kernel module*>
+
+A *kernel module* represents a kernel module.
+
+Mandatory variables:
+
+| Variable      | Description |
+| :------------ | :---------- |
+| name          | the name of the module to load |
+
+Optional variables:
+
+| Variable      | Default | Description |
+| :------------ | :------ | :---------- |
+| state         | present | *present / absent*: to load or unload a module
+| params        | {}      | a dictionnary of optional parameters
 
 ## Example Playbook
 
-    - hosts: webservers
+    - hosts: 'webservers'
       roles:
-        - role: t18s.fr_kernel_modules:
-          - name: ip_tables
-            state: present
-            params: {}
+        - role: 'ansible-role-linux_kernel_module:'
+          linux_kernel_modules:
+            - name: 'ip_tables'
+              state: 'present'
+              params: {}
         
-          - name: ip6_tables
-            state: present
-            params: {}
+            - name: 'ip6_tables'
+              state: 'present'
+              params: {}
 
 ## Todo
 
 None.
 
+## Dependencies
+
+None.
+
+## Supported platforms
+
+See [meta/main.yml](https://github.com/tristan-weil/ansible-role-linux_kernel_module/blob/master/meta/main.yml)
+
 ## License
 
-```
-Copyright (c) 2018, 2019 Tristan Weil <titou@lab.t18s.fr>
-
-Permission to use, copy, modify, and distribute this software for any
-purpose with or without fee is hereby granted, provided that the above
-copyright notice and this permission notice appear in all copies.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
-WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
-MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
-ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
-ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
-OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-```
+See [LICENSE.md](https://github.com/tristan-weil/ansible-role-linux_kernel_module/blob/master/LICENSE.md)
